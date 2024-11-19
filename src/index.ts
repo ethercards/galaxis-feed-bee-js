@@ -4,7 +4,7 @@ import { CreatePostageBatchResponse } from "./types";
 const green = '\x1b[32m%s\x1b[0m';
 const orange = '\x1b[33m%s\x1b[0m';
 
-const main = async () => {
+export const main = async () => {
 
     const args = process.argv.slice(2); // Get command-line arguments
     console.log('Arguments:', args);
@@ -53,4 +53,4 @@ const main = async () => {
     }
 }
 
-main();
+//main();
