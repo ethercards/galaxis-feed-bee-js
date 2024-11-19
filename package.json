@@ -2,13 +2,27 @@
   "name": "galaxis-feed-be-js",
   "version": "1.0.0",
   "description": "A package for interacting with the Bee API",
-  "main": "/dist/index.js",
+  "main": "dist/cjs/index.js",
   "types": "/dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
     "start": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ethercatds/galaxis-feed-be-js.git"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/mjs/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "bee",
     "feed",
@@ -23,6 +37,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.9.0",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }
