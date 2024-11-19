@@ -1,10 +1,9 @@
 import axios from "axios";
-import config from "./config";
 import { CreatePostageBatchResponse } from "./types";
-import { PostageBatch, PostageBatchBuckets } from "@ethersphere/bee-js";
+import { PostageBatch } from "@ethersphere/bee-js";
 
 const http = axios.create({
-    baseURL: config.beeUrl,
+    baseURL: process.env.BEE_URL,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -12,8 +11,9 @@ const http = axios.create({
 
 class Api {
     async createPostageBatch(amount?: string, depth?: number): Promise<CreatePostageBatchResponse> {
-        amount = amount || config.postageStamps.amount.toString();
-        depth = depth || config.postageStamps.depth;
+        if (!amount || !depth || isNaN(Number(amount)) || isNaN(Number(depth))) {
+            throw new Error('Amount and depth are required and must be numbers');
+        }
 
         try {
             const response = await http.post(`/stamps/${amount}/${depth}`);

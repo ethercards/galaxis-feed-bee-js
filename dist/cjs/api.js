@@ -13,9 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const config_1 = __importDefault(require("./config"));
 const http = axios_1.default.create({
-    baseURL: config_1.default.beeUrl,
+    baseURL: process.env.BEE_URL,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -23,8 +22,9 @@ const http = axios_1.default.create({
 class Api {
     createPostageBatch(amount, depth) {
         return __awaiter(this, void 0, void 0, function* () {
-            amount = amount || config_1.default.postageStamps.amount.toString();
-            depth = depth || config_1.default.postageStamps.depth;
+            if (!amount || !depth || isNaN(Number(amount)) || isNaN(Number(depth))) {
+                throw new Error('Amount and depth are required and must be numbers');
+            }
             try {
                 const response = yield http.post(`/stamps/${amount}/${depth}`);
                 return response.data;

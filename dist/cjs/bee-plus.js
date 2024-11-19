@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bee_js_1 = require("@ethersphere/bee-js");
-const config_1 = __importDefault(require("./config"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const api_1 = __importDefault(require("./api"));
@@ -45,8 +44,6 @@ class BeePlus extends bee_js_1.Bee {
                 throw new Error('Amount and depth must be convert to numbers');
             }
             const response = yield api_1.default.createPostageBatch(amount, depthNumber);
-            this._writePostageBatchToFile(config_1.default.postageBatchPath, response);
-            this.refreshPostageBatch();
             console.log('Postage batch created:', response);
             return response;
         });
@@ -56,16 +53,6 @@ class BeePlus extends bee_js_1.Bee {
             const response = yield api_1.default.fetchPostageBatch(this.postageBatchId);
             return response;
         });
-    }
-    _writePostageBatchToFile(filePath, postageBatch) {
-        fs_1.default.writeFileSync(filePath, JSON.stringify(postageBatch, null, 2));
-    }
-    _getPostageBatchFromFile(filePath) {
-        const fileContent = fs_1.default.readFileSync(filePath, 'utf-8');
-        return JSON.parse(fileContent);
-    }
-    refreshPostageBatch() {
-        this.postageBatchId = this._getPostageBatchFromFile(config_1.default.postageBatchPath).batchID;
     }
     upload(file) {
         return __awaiter(this, void 0, void 0, function* () {

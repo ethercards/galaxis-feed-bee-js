@@ -1,5 +1,4 @@
 import { Bee, BeeOptions, FeedWriter, PostageBatch, UploadResultWithCid } from "@ethersphere/bee-js";
-import config from "./config";
 import fs from 'fs';
 import path from 'path';
 import api from "./api";
@@ -37,8 +36,6 @@ class BeePlus extends Bee {
             throw new Error('Amount and depth must be convert to numbers');
         }
         const response: CreatePostageBatchResponse = await api.createPostageBatch(amount, depthNumber);
-        this._writePostageBatchToFile(config.postageBatchPath, response);
-        this.refreshPostageBatch();
         console.log('Postage batch created:', response);
         return response;
     }
@@ -46,19 +43,6 @@ class BeePlus extends Bee {
     async fetchPostageBatch(): Promise<PostageBatch> {
         const response: PostageBatch = await api.fetchPostageBatch(this.postageBatchId);
         return response;
-    }
-
-    _writePostageBatchToFile(filePath: string, postageBatch: CreatePostageBatchResponse) {
-        fs.writeFileSync(filePath, JSON.stringify(postageBatch, null, 2));
-    }
-
-    _getPostageBatchFromFile(filePath: string): CreatePostageBatchResponse {
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        return JSON.parse(fileContent);
-    }
-
-    refreshPostageBatch() {
-        this.postageBatchId = this._getPostageBatchFromFile(config.postageBatchPath).batchID;
     }
 
     async upload(file: string): Promise<UploadResultWithCid> {
