@@ -1,0 +1,22 @@
+{
+  "side-0": {
+    "layer-0": {
+      "0001": {
+        "name": "fr_dev_card_2",
+        "dna": "0002",
+        "thumb_url": "https://mcb.dev.galaxis.xyz/communities/56/collections/1/side-0/layer-0/thumb/0001.png",
+        "original_url": "https://mcb.dev.galaxis.xyz/communities/56/collections/1/side-0/layer-0/original/0001.png",
+        "asset_thumb_url": "https://mcb.dev.galaxis.xyz/communities/56/collections/1/side-0/layer-0/thumb/0001.png",
+        "asset_original_url": "https://mcb.dev.galaxis.xyz/communities/56/collections/1/side-0/layer-0/original/0001.png"
+      },
+      "0002": {
+        "name": "fr_dev_card_1",
+        "dna": "0030",
+        "thumb_url": "https://mcb.dev.galaxis.xyz/communities/56/collections/1/side-0/layer-0/thumb/0002.png",
+        "original_url": "https://mcb.dev.galaxis.xyz/communities/56/collections/1/side-0/layer-0/original/0002.png",
+        "asset_thumb_url": "https://mcb.dev.galaxis.xyz/communities/56/collections/1/side-0/layer-0/thumb/0001.png",
+        "asset_original_url": "https://mcb.dev.galaxis.xyz/communities/56/collections/1/side-0/layer-0/original/0001.png"
+      }
+    }
+  }
+}
