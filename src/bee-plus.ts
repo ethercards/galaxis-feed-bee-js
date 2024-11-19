@@ -1,7 +1,7 @@
 import { Bee, BeeOptions, FeedWriter, PostageBatch, UploadResultWithCid } from "@ethersphere/bee-js";
 import fs from 'fs';
 import path from 'path';
-import api from "./api";
+import Api from "./api";
 import { CreatePostageBatchResponse, KeyData, ManifestReference } from "./types";
 import { HDNodeWallet, Wallet } from "ethers";
 
@@ -35,12 +35,14 @@ class BeePlus extends Bee {
         if (isNaN(Number(amount)) || isNaN(depthNumber)) {
             throw new Error('Amount and depth must be convert to numbers');
         }
+        const api = new Api();
         const response: CreatePostageBatchResponse = await api.createPostageBatch(amount, depthNumber);
         console.log('Postage batch created:', response);
         return response;
     }
 
     async fetchPostageBatch(): Promise<PostageBatch> {
+        const api = new Api();
         const response: PostageBatch = await api.fetchPostageBatch(this.postageBatchId);
         return response;
     }

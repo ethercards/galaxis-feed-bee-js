@@ -13,20 +13,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const http = axios_1.default.create({
-    baseURL: process.env.BEE_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
 class Api {
+    constructor() {
+        const http = axios_1.default.create({
+            baseURL: process.env.BEE_URL,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        this.http = http;
+    }
     createPostageBatch(amount, depth) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!amount || !depth || isNaN(Number(amount)) || isNaN(Number(depth))) {
                 throw new Error('Amount and depth are required and must be numbers');
             }
             try {
-                const response = yield http.post(`/stamps/${amount}/${depth}`);
+                const response = yield this.http.post(`/stamps/${amount}/${depth}`);
                 return response.data;
             }
             catch (error) {
@@ -38,7 +41,7 @@ class Api {
     fetchPostageBatch(postageBatchId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield http.get(`/stamps/${postageBatchId}`);
+                const response = yield this.http.get(`/stamps/${postageBatchId}`);
                 return response.data;
             }
             catch (error) {
@@ -48,4 +51,4 @@ class Api {
         });
     }
 }
-exports.default = new Api();
+exports.default = Api;

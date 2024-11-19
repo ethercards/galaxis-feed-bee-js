@@ -43,14 +43,16 @@ class BeePlus extends bee_js_1.Bee {
             if (isNaN(Number(amount)) || isNaN(depthNumber)) {
                 throw new Error('Amount and depth must be convert to numbers');
             }
-            const response = yield api_1.default.createPostageBatch(amount, depthNumber);
+            const api = new api_1.default();
+            const response = yield api.createPostageBatch(amount, depthNumber);
             console.log('Postage batch created:', response);
             return response;
         });
     }
     fetchPostageBatch() {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield api_1.default.fetchPostageBatch(this.postageBatchId);
+            const api = new api_1.default();
+            const response = yield api.fetchPostageBatch(this.postageBatchId);
             return response;
         });
     }
