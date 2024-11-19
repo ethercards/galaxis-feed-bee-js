@@ -1,5 +1,5 @@
 {
-  "name": "feed_bee_js",
+  "name": "galaxis-feed-be-js",
   "version": "1.0.0",
   "description": "A package for interacting with the Bee API",
   "main": "/dist/index.js",
