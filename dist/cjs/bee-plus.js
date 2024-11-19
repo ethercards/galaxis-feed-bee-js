@@ -19,13 +19,18 @@ const path_1 = __importDefault(require("path"));
 const api_1 = __importDefault(require("./api"));
 const ethers_1 = require("ethers");
 class BeePlus extends bee_js_1.Bee {
-    constructor() {
-        const batchId = process.env.BATCH_ID || JSON.parse(fs_1.default.readFileSync(config_1.default.postageBatchPath, 'utf-8')).batchID;
+    static create(beeUrl, batchId) {
+        return new BeePlus(beeUrl || process.env.BEE_URL || '', batchId || process.env.BATCH_ID || '');
+    }
+    constructor(beeUrl, batchId) {
+        if (!beeUrl || !batchId) {
+            throw new Error('Bee URL and batch ID are required');
+        }
         const wallet = ethers_1.Wallet.createRandom();
         let options = {
             signer: wallet.privateKey
         };
-        super(config_1.default.beeUrl, options);
+        super(beeUrl, options);
         this.keyData = { owner: '', signer: '' };
         this.postageBatchId = '';
         this.manifestReference = '';
@@ -96,4 +101,4 @@ class BeePlus extends bee_js_1.Bee {
         });
     }
 }
-exports.default = new BeePlus();
+exports.default = BeePlus;

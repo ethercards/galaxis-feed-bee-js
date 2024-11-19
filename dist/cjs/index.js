@@ -21,7 +21,8 @@ const orange = '\x1b[33m%s\x1b[0m';
 function buy(amount, depth) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('buy postage batch with', amount, depth);
-        const result = yield bee_plus_1.default.createPostageBatch(amount, depth);
+        const beePlus = bee_plus_1.default.create();
+        const result = yield beePlus.createPostageBatch(amount, depth);
         console.log(green, 'Postage batch created:', result);
         return result;
     });
@@ -29,65 +30,22 @@ function buy(amount, depth) {
 function feed(file, topic) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('feed', file, topic);
-        return bee_plus_1.default.writeFeed(file, topic);
+        const beePlus = bee_plus_1.default.create();
+        return beePlus.writeFeed(file, topic);
     });
 }
 function upload(file) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('uploading file', file);
-        const result = yield bee_plus_1.default.upload(file);
+        const beePlus = bee_plus_1.default.create();
+        const result = yield beePlus.upload(file);
         console.log(green, 'Upload file result:', result);
         return result;
     });
 }
-// export const main = async () => {
-//     const args = process.argv.slice(3); // Get command-line arguments
-//     console.log('Arguments:', args);
-//     if (args.length > 0) {
-//         switch (args[0]) {
-//             case 'help':
-//             case '?':
-//                 console.log('Usage:');
-//                 console.log('  help or ?: Display this help message');
-//                 console.log('  buy <amount> <depth>: Buy a new postage batch');
-//                 console.log('  upload <file-path>: Upload a file');
-//                 console.log('  feed <file-path> <topic>: Write to a feed');
-//                 break;
-//             case 'buy':
-//                 if (args.length > 2) {
-//                     return await beePlus.createPostageBatch(args[1], args[2]);
-//                 } else {
-//                     console.log('usage: buy <amount> <depth>');
-//                 }
-//             case 'upload':
-//                 if (args.length > 1) {
-//                     return await beePlus.upload(args[1]);
-//                 }
-//                 else {
-//                     console.log("usage: upload <file-path>");
-//                 }
-//                 break;
-//             case 'feed':
-//                 if (args.length > 2) {
-//                     try {
-//                         await beePlus.writeFeed(args[1], args[2]);
-//                     } catch (error) {
-//                         console.error('Error:', error);
-//                         throw error;
-//                     }
-//                 }
-//                 else {
-//                     console.log("usage: feed <file-path> <topic>");
-//                 }
-//                 break;
-//             default:
-//                 console.log('Invalid command:', args[0]);
-//         }
-//     }
-// }
-//main();
 module.exports = {
     buy,
     feed,
-    upload
+    upload,
+    BeePlus: bee_plus_1.default
 };
