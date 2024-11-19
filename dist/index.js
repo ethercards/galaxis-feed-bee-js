@@ -86,3 +86,8 @@ function upload(file) {
 //     }
 // }
 //main();
+module.exports = {
+    buy,
+    feed,
+    upload
+};
