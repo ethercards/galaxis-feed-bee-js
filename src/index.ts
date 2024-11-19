@@ -1,12 +1,32 @@
+import { UploadResultWithCid } from "@ethersphere/bee-js";
 import beePlus from "./bee-plus";
 import { CreatePostageBatchResponse } from "./types";
 
 const green = '\x1b[32m%s\x1b[0m';
 const orange = '\x1b[33m%s\x1b[0m';
 
+export async function buy(amount: string, depth: string): Promise<CreatePostageBatchResponse> {
+    console.log('buy postage batch with', amount, depth);
+    const result = await beePlus.createPostageBatch(amount, depth);
+    console.log(green, 'Postage batch created:', result);
+    return result;
+}
+
+export async function feed(file: string, topic: string): Promise<string> {
+    console.log('feed', file, topic);
+    return beePlus.writeFeed(file, topic);
+}
+
+export async function upload(file: string): Promise<UploadResultWithCid> {
+    console.log('uploading file', file);
+    const result = await beePlus.upload(file);
+    console.log(green, 'Upload file result:', result);
+    return result;
+}
+
 export const main = async () => {
 
-    const args = process.argv.slice(2); // Get command-line arguments
+    const args = process.argv.slice(3); // Get command-line arguments
     console.log('Arguments:', args);
 
     if (args.length > 0) {
