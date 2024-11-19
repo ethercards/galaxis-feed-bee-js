@@ -1,15 +1,21 @@
 {
   "name": "feed_bee_js",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "A package for interacting with the Bee API",
+  "main": "/dist/index.js",
+  "types": "/dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "start": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ethercards/galaxis-feed-be-js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "@ethersphere/bee-js": "^6.7.4",
     "axios": "^1.7.7",
