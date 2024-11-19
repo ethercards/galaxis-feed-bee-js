@@ -9,10 +9,6 @@
     "start": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ethercards/galaxis-feed-be-js"
-  },
   "keywords": [
     "bee",
     "feed",
