@@ -13,9 +13,13 @@
     "type": "git",
     "url": "https://github.com/ethercards/galaxis-feed-be-js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "bee",
+    "feed",
+    "galaxis"
+  ],
+  "author": "Ferenc Mucsi",
+  "license": "MIT",
   "dependencies": {
     "@ethersphere/bee-js": "^6.7.4",
     "axios": "^1.7.7",
