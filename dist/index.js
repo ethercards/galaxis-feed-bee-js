@@ -13,11 +13,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = void 0;
+exports.buy = buy;
+exports.feed = feed;
+exports.upload = upload;
 const bee_plus_1 = __importDefault(require("./bee-plus"));
 const green = '\x1b[32m%s\x1b[0m';
 const orange = '\x1b[33m%s\x1b[0m';
+function buy(amount, depth) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('buy postage batch with', amount, depth);
+        const result = yield bee_plus_1.default.createPostageBatch(amount, depth);
+        console.log(green, 'Postage batch created:', result);
+        return result;
+    });
+}
+function feed(file, topic) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('feed', file, topic);
+        return bee_plus_1.default.writeFeed(file, topic);
+    });
+}
+function upload(file) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('uploading file', file);
+        const result = yield bee_plus_1.default.upload(file);
+        console.log(green, 'Upload file result:', result);
+        return result;
+    });
+}
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    const args = process.argv.slice(2); // Get command-line arguments
+    const args = process.argv.slice(3); // Get command-line arguments
     console.log('Arguments:', args);
     if (args.length > 0) {
         switch (args[0]) {
