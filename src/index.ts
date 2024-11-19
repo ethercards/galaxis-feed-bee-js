@@ -74,3 +74,9 @@ export async function upload(file: string): Promise<UploadResultWithCid> {
 // }
 
 //main();
+
+module.exports = {
+    buy,
+    feed,
+    upload
+}
