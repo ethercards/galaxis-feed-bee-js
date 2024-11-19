@@ -47,10 +47,8 @@ class BeePlus extends Bee {
 
     async upload(file: string): Promise<UploadResultWithCid> {
         const fileName = path.basename(file);
-        const fileDir = path.dirname(file);
-        const filePath = path.join(__dirname, file);
-        console.log('filePath:', filePath);
-        const data = fs.readFileSync(filePath);
+        console.log('filePath:', file);
+        const data = fs.readFileSync(file);
         const result = await this.uploadFile(this.postageBatchId, data, fileName);
         console.log('Upload file result:', result);
         return result;
@@ -61,8 +59,6 @@ class BeePlus extends Bee {
         if (!this.wallet) {
             throw new Error('Wallet not found');
         }
-        const fileName = path.basename(file);
-        console.log('fileName:', fileName)
         const topic = this.makeFeedTopic(rawTopic);
         const result: UploadResultWithCid = await this.upload(file);
         const feedWriter: FeedWriter = this.makeFeedWriter('sequence', topic)

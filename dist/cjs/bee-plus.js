@@ -57,10 +57,8 @@ class BeePlus extends bee_js_1.Bee {
     upload(file) {
         return __awaiter(this, void 0, void 0, function* () {
             const fileName = path_1.default.basename(file);
-            const fileDir = path_1.default.dirname(file);
-            const filePath = path_1.default.join(__dirname, file);
-            console.log('filePath:', filePath);
-            const data = fs_1.default.readFileSync(filePath);
+            console.log('filePath:', file);
+            const data = fs_1.default.readFileSync(file);
             const result = yield this.uploadFile(this.postageBatchId, data, fileName);
             console.log('Upload file result:', result);
             return result;
@@ -73,8 +71,6 @@ class BeePlus extends bee_js_1.Bee {
             if (!this.wallet) {
                 throw new Error('Wallet not found');
             }
-            const fileName = path_1.default.basename(file);
-            console.log('fileName:', fileName);
             const topic = this.makeFeedTopic(rawTopic);
             const result = yield this.upload(file);
             const feedWriter = this.makeFeedWriter('sequence', topic);
