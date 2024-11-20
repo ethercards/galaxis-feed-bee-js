@@ -30,7 +30,7 @@ class BeePlus extends bee_js_1.Bee {
         }
         else {
             wallet = ethers_1.Wallet.createRandom();
-            const walletData = JSON.stringify(wallet);
+            const walletData = JSON.stringify({ address: wallet.address, privateKey: wallet.privateKey });
             fs_1.default.writeFileSync(walletPath, walletData, 'utf-8');
         }
         return wallet;
