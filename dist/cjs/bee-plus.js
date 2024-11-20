@@ -21,11 +21,25 @@ class BeePlus extends bee_js_1.Bee {
     static create(beeUrl, batchId) {
         return new BeePlus(beeUrl || process.env.BEE_URL || '', batchId || process.env.BATCH_ID || '');
     }
+    static initWallet() {
+        const walletPath = path_1.default.join(__dirname, 'wallet.json');
+        let wallet;
+        if (fs_1.default.existsSync(walletPath)) {
+            const walletData = fs_1.default.readFileSync(walletPath, 'utf-8');
+            wallet = JSON.parse(walletData);
+        }
+        else {
+            wallet = ethers_1.Wallet.createRandom();
+            const walletData = JSON.stringify(wallet);
+            fs_1.default.writeFileSync(walletPath, walletData, 'utf-8');
+        }
+        return wallet;
+    }
     constructor(beeUrl, batchId) {
         if (!beeUrl || !batchId) {
             throw new Error('Bee URL and batch ID are required');
         }
-        const wallet = ethers_1.Wallet.createRandom();
+        const wallet = BeePlus.initWallet();
         let options = {
             signer: wallet.privateKey
         };
