@@ -24,7 +24,7 @@ class BeePlus extends Bee {
             wallet = JSON.parse(walletData);
         } else {
             wallet = Wallet.createRandom();
-            const walletData = JSON.stringify(wallet);
+            const walletData = JSON.stringify({ address: wallet.address, privateKey: wallet.privateKey });
             fs.writeFileSync(walletPath, walletData, 'utf-8');
         }
 
