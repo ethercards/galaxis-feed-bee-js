@@ -5,7 +5,14 @@ import { CreatePostageBatchResponse } from "./types";
 const green = '\x1b[32m%s\x1b[0m';
 const orange = '\x1b[33m%s\x1b[0m';
 
-export async function buyPotageBatch(amount: string, depth: string): Promise<CreatePostageBatchResponse> {
+/**
+ * Buys a postage batch with the specified amount and depth.
+ *
+ * @param amount - The amount of BZZ tokens to be used for the postage batch.
+ * @param depth - The depth of the postage batch.
+ * @returns A promise that resolves to a CreatePostageBatchResponse object containing details of the created postage batch.
+ */
+export async function buy(amount: string, depth: string): Promise<CreatePostageBatchResponse> {
     console.log('buy postage batch with', amount, depth);
     const beePlus = BeePlus.create();
     const result = await beePlus.createPostageBatch(amount, depth);
@@ -13,20 +20,38 @@ export async function buyPotageBatch(amount: string, depth: string): Promise<Cre
     return result;
 }
 
-export async function feedFile(file: string, topic: string): Promise<string> {
+/**
+ * Feeds a file to a feed with the specified topic.
+ *
+ * @param file - The path to the file to be fed.
+ * @param topic - The topic of the feed.
+ * @returns A promise that resolves to the reference of the feed.
+ */
+export async function feed(file: string, topic: string): Promise<string> {
     console.log('feed', file, topic);
     const beePlus = BeePlus.create();
     return beePlus.writeFeed(file, topic);
 }
 
+/**
+ * Uploads a file to the Bee network.
+ *
+ * @param file - The path to the file to be uploaded.
+ * @returns A promise that resolves to an UploadResultWithCid object containing the CID of the uploaded file.
+ */
 export async function uploadFile(file: string): Promise<UploadResultWithCid> {
     console.log('uploading file', file);
     const beePlus = BeePlus.create();
     const result = await beePlus.upload(file);
-    console.log(green, 'Upload file result:', result);
     return result;
 }
 
+/**
+ * Uploads files from a directory to the Bee network.
+ *
+ * @param path - The path to the directory containing the files to be uploaded.
+ * @returns A promise that resolves to an UploadResultWithCid object containing the CID of the uploaded files.
+ */
 export async function uploadFilesFromDirectory(path: string): Promise<UploadResultWithCid> {
     console.log('uploading files from directory', path);
     const beePlus = BeePlus.create();
@@ -37,8 +62,8 @@ export async function uploadFilesFromDirectory(path: string): Promise<UploadResu
 }
 
 module.exports = {
-    buyPotageBatch,
-    feedFile,
+    buy,
+    feed,
     uploadFile,
     uploadFilesFromDirectory,
     BeePlus

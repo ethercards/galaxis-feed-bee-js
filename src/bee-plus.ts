@@ -65,7 +65,6 @@ class BeePlus extends Bee {
 
     async upload(file: string): Promise<UploadResultWithCid> {
         const fileName = path.basename(file);
-        console.log('filePath:', file);
         const data = fs.readFileSync(file);
         const result = await this.uploadFile(this.postageBatchId, data, fileName);
         console.log('Upload file result:', result);
