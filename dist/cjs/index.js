@@ -55,11 +55,11 @@ function feed(file, topic) {
  * @param file - The path to the file to be uploaded.
  * @returns A promise that resolves to an UploadResultWithCid object containing the CID of the uploaded file.
  */
-function uploadFile(file) {
+function uploadFile(file, rawTopic) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('uploading file', file);
         const beePlus = bee_plus_1.default.create();
-        const result = yield beePlus.upload(file);
+        const result = yield beePlus.upload(file, rawTopic);
         return result;
     });
 }
