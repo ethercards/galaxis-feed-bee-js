@@ -2,7 +2,9 @@ import axios, { AxiosInstance } from "axios";
 import { CreatePostageBatchResponse } from "./types";
 import { PostageBatch } from "@ethersphere/bee-js";
 
-
+/**
+ * Bee API client
+ */
 class Api {
     http: AxiosInstance;
 
