@@ -36,7 +36,9 @@ class BeePlus extends Bee {
             fs.writeFileSync(walletFilePath, walletData, 'utf-8');
         }
 
-        console.log('Wallet:', wallet);
+        if (process.env.ENV === 'development') {
+            console.log('Wallet:', wallet);
+        }
 
         return wallet;
     }
@@ -76,7 +78,8 @@ class BeePlus extends Bee {
     async upload(file: string): Promise<UploadResultWithCid> {
         const fileName = path.basename(file);
         const data = fs.readFileSync(file);
-        const result = await this.uploadFile(this.postageBatchId, data, fileName);
+        //const result = await this.uploadFile(this.postageBatchId, data, fileName);
+        const result = await this.uploadFile(this.postageBatchId, data);
         console.log('Upload file result:', result);
         return result;
     }
