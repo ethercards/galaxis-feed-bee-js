@@ -87,6 +87,7 @@ class BeePlus extends bee_js_1.Bee {
                 throw new Error('Wallet not found');
             }
             const topic = this.makeFeedTopic(rawTopic);
+            console.log('Feed topic:', topic);
             const result = yield this.upload(file);
             const feedWriter = this.makeFeedWriter('sequence', topic);
             const response = yield feedWriter.upload(this.postageBatchId, result.reference);

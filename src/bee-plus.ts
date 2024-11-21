@@ -77,6 +77,7 @@ class BeePlus extends Bee {
             throw new Error('Wallet not found');
         }
         const topic = this.makeFeedTopic(rawTopic);
+        console.log('Feed topic:', topic);
         const result: UploadResultWithCid = await this.upload(file);
         const feedWriter: FeedWriter = this.makeFeedWriter('sequence', topic)
         const response = await feedWriter.upload(this.postageBatchId, result.reference)
