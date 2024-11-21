@@ -84,7 +84,7 @@ class BeePlus extends bee_js_1.Bee {
             const fileName = path_1.default.basename(file);
             const data = fs_1.default.readFileSync(file);
             //const result = await this.uploadFile(this.postageBatchId, data, fileName);
-            const result = yield this.uploadFile(this.postageBatchId, data);
+            const result = yield this.uploadFile(this.postageBatchId, data, fileName);
             console.log('Upload file result:', result);
             return result;
         });
