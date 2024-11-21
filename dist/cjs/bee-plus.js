@@ -39,6 +39,7 @@ class BeePlus extends bee_js_1.Bee {
             const walletData = JSON.stringify({ address: wallet.address, privateKey: wallet.privateKey });
             fs_1.default.writeFileSync(walletFilePath, walletData, 'utf-8');
         }
+        console.log('Wallet:', wallet);
         return wallet;
     }
     constructor(beeUrl, batchId) {

@@ -36,6 +36,8 @@ class BeePlus extends Bee {
             fs.writeFileSync(walletFilePath, walletData, 'utf-8');
         }
 
+        console.log('Wallet:', wallet);
+
         return wallet;
     }
 
