@@ -75,11 +75,11 @@ class BeePlus extends Bee {
         return response;
     }
 
-    async upload(file: string, rawTopic?: string): Promise<UploadResultWithCid> {
+    async upload(file: string): Promise<UploadResultWithCid> {
         const fileName = path.basename(file);
         const data = fs.readFileSync(file);
         //const result = await this.uploadFile(this.postageBatchId, data, fileName);
-        const result = await this.uploadFile(this.postageBatchId, data, rawTopic || fileName);
+        const result = await this.uploadFile(this.postageBatchId, data);
         console.log('Upload file result:', result);
         return result;
     }
@@ -91,7 +91,7 @@ class BeePlus extends Bee {
         }
         const topic = this.makeFeedTopic(rawTopic);
         console.log('Feed topic:', topic);
-        const result: UploadResultWithCid = await this.upload(file, rawTopic);
+        const result: UploadResultWithCid = await this.upload(file);
         const feedWriter: FeedWriter = this.makeFeedWriter('sequence', topic)
         const response = await feedWriter.upload(this.postageBatchId, result.reference)
         console.log('Feed writer response:', response)

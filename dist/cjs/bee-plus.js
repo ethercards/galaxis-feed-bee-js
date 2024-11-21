@@ -79,12 +79,12 @@ class BeePlus extends bee_js_1.Bee {
             return response;
         });
     }
-    upload(file, rawTopic) {
+    upload(file) {
         return __awaiter(this, void 0, void 0, function* () {
             const fileName = path_1.default.basename(file);
             const data = fs_1.default.readFileSync(file);
             //const result = await this.uploadFile(this.postageBatchId, data, fileName);
-            const result = yield this.uploadFile(this.postageBatchId, data, rawTopic || fileName);
+            const result = yield this.uploadFile(this.postageBatchId, data);
             console.log('Upload file result:', result);
             return result;
         });
@@ -98,7 +98,7 @@ class BeePlus extends bee_js_1.Bee {
             }
             const topic = this.makeFeedTopic(rawTopic);
             console.log('Feed topic:', topic);
-            const result = yield this.upload(file, rawTopic);
+            const result = yield this.upload(file);
             const feedWriter = this.makeFeedWriter('sequence', topic);
             const response = yield feedWriter.upload(this.postageBatchId, result.reference);
             console.log('Feed writer response:', response);

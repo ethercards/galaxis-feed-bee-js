@@ -39,10 +39,10 @@ export async function feed(file: string, topic: string): Promise<string> {
  * @param file - The path to the file to be uploaded.
  * @returns A promise that resolves to an UploadResultWithCid object containing the CID of the uploaded file.
  */
-export async function uploadFile(file: string, rawTopic?: string): Promise<UploadResultWithCid> {
+export async function uploadFile(file: string): Promise<UploadResultWithCid> {
     console.log('uploading file', file);
     const beePlus = BeePlus.create();
-    const result = await beePlus.upload(file, rawTopic);
+    const result = await beePlus.upload(file);
     return result;
 }
 
