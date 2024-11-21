@@ -16,16 +16,24 @@ class BeePlus extends Bee {
     }
 
     static initWallet(): HDNodeWallet {
-        const walletPath = path.join(__dirname, 'wallet.json');
+        const packageName = 'galaxis-feed-be-js';
+        const configDir = path.resolve(process.cwd(), '.config', packageName);
+        const walletFilePath = path.join(configDir, 'wallet.json');
+
+        if (!fs.existsSync(configDir)) {
+            fs.mkdirSync(configDir, { recursive: true });
+            console.log(`Created directory: ${configDir}`);
+        }
+
         let wallet: HDNodeWallet;
 
-        if (fs.existsSync(walletPath)) {
-            const walletData = fs.readFileSync(walletPath, 'utf-8');
+        if (fs.existsSync(walletFilePath)) {
+            const walletData = fs.readFileSync(walletFilePath, 'utf-8');
             wallet = JSON.parse(walletData);
         } else {
             wallet = Wallet.createRandom();
             const walletData = JSON.stringify({ address: wallet.address, privateKey: wallet.privateKey });
-            fs.writeFileSync(walletPath, walletData, 'utf-8');
+            fs.writeFileSync(walletFilePath, walletData, 'utf-8');
         }
 
         return wallet;

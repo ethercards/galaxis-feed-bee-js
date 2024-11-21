@@ -22,16 +22,22 @@ class BeePlus extends bee_js_1.Bee {
         return new BeePlus(beeUrl || process.env.BEE_URL || '', batchId || process.env.BATCH_ID || '');
     }
     static initWallet() {
-        const walletPath = path_1.default.join(__dirname, 'wallet.json');
+        const packageName = 'galaxis-feed-be-js';
+        const configDir = path_1.default.resolve(process.cwd(), '.config', packageName);
+        const walletFilePath = path_1.default.join(configDir, 'wallet.json');
+        if (!fs_1.default.existsSync(configDir)) {
+            fs_1.default.mkdirSync(configDir, { recursive: true });
+            console.log(`Created directory: ${configDir}`);
+        }
         let wallet;
-        if (fs_1.default.existsSync(walletPath)) {
-            const walletData = fs_1.default.readFileSync(walletPath, 'utf-8');
+        if (fs_1.default.existsSync(walletFilePath)) {
+            const walletData = fs_1.default.readFileSync(walletFilePath, 'utf-8');
             wallet = JSON.parse(walletData);
         }
         else {
             wallet = ethers_1.Wallet.createRandom();
             const walletData = JSON.stringify({ address: wallet.address, privateKey: wallet.privateKey });
-            fs_1.default.writeFileSync(walletPath, walletData, 'utf-8');
+            fs_1.default.writeFileSync(walletFilePath, walletData, 'utf-8');
         }
         return wallet;
     }
