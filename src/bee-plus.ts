@@ -1,4 +1,4 @@
-import { Bee, BeeOptions, FeedWriter, PostageBatch, UploadResultWithCid } from "@ethersphere/bee-js";
+import { AnyJson, Bee, BeeOptions, FeedWriter, PostageBatch, UploadResultWithCid } from "@ethersphere/bee-js";
 import fs from 'fs';
 import path from 'path';
 import Api from "./api";
@@ -98,6 +98,14 @@ class BeePlus extends Bee {
         console.log('Feed URL:', resultUrl)
         return resultUrl;
     }
+
+    async readJsonFeed(rawTopic: string): Promise<AnyJson> {
+        const response = await super.getJsonFeed(rawTopic);
+        console.log('Feed response:', response);
+
+        return response;
+    }
+    
 }
 
 export default BeePlus;

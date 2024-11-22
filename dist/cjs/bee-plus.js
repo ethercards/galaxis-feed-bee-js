@@ -106,5 +106,15 @@ class BeePlus extends bee_js_1.Bee {
             return resultUrl;
         });
     }
+    readJsonFeed(rawTopic) {
+        const _super = Object.create(null, {
+            getJsonFeed: { get: () => super.getJsonFeed }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield _super.getJsonFeed.call(this, rawTopic);
+            console.log('Feed response:', response);
+            return response;
+        });
+    }
 }
 exports.default = BeePlus;
