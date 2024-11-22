@@ -118,6 +118,8 @@ module.exports = {
     feedImage,
     uploadFile,
     uploadFilesFromDirectory,
+    readJsonFeed,
+    setJsonFeed,
     BeePlus: bee_plus_1.default,
     Utils: bee_js_1.Utils
 };

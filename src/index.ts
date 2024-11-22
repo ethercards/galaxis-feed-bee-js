@@ -97,6 +97,8 @@ module.exports = {
     feedImage,
     uploadFile,
     uploadFilesFromDirectory,
+    readJsonFeed,
+    setJsonFeed,
     BeePlus,
     Utils
 }
