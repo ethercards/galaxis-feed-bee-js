@@ -11,8 +11,8 @@ class BeePlus extends Bee {
     manifestReference: string = '';
     wallet: HDNodeWallet | null = null;
 
-    static create(beeUrl?: string, batchId?: string): BeePlus {
-        return new BeePlus(beeUrl || process.env.BEE_URL || '', batchId || process.env.BATCH_ID || '');
+    static create(beeUrl?: string, batchId?: string, headers?: Record<string, string>): BeePlus {
+        return new BeePlus(beeUrl || process.env.BEE_URL || '', batchId || process.env.BATCH_ID || '', headers);
     }
 
     static initWallet(): HDNodeWallet {
@@ -41,14 +41,21 @@ class BeePlus extends Bee {
         return wallet;
     }
 
-    constructor(beeUrl: string, batchId: string) {
+    constructor(beeUrl: string, batchId: string, headers?: Record<string, string>) {
         if (!beeUrl || !batchId) {
             throw new Error('Bee URL and batch ID are required');
         }
         const wallet = BeePlus.initWallet();
 
         let options: BeeOptions = {
-            signer: wallet.privateKey
+            signer: wallet.privateKey,
+        }
+
+        if(headers !== null || headers !== undefined || Object.keys(headers).length > 0) {
+            options = {
+                ...options,
+                headers
+            }
         }
 
         super(beeUrl, options);
@@ -99,13 +106,6 @@ class BeePlus extends Bee {
         return resultUrl;
     }
 
-    async readJsonFeed(rawTopic: string): Promise<AnyJson> {
-        const response = await super.getJsonFeed(rawTopic);
-        console.log('Feed response:', response);
-
-        return response;
-    }
-    
 }
 
 export default BeePlus;

@@ -1,6 +1,7 @@
-import { UploadResultWithCid } from "@ethersphere/bee-js";
+import { AnyJson, UploadResultWithCid } from "@ethersphere/bee-js";
 import BeePlus from "./bee-plus";
 import { CreatePostageBatchResponse } from "./types";
+import { Utils } from "@ethersphere/bee-js";
 
 const green = '\x1b[32m%s\x1b[0m';
 const orange = '\x1b[33m%s\x1b[0m';
@@ -34,6 +35,19 @@ export async function feed(file: string, topic: string): Promise<string> {
 }
 
 /**
+ * Feeds an image to a feed with the specified topic.
+ *
+ * @param file - The path to the file to be fed.
+ * @param topic - The topic of the feed.
+ * @returns A promise that resolves to the reference of the feed.
+ */
+export async function feedImage(file: string, topic: string, headers: Record<string, string>): Promise<string> {
+    console.log('feed image', file, topic);
+    const beePlus = BeePlus.create(undefined, undefined, headers);
+    return beePlus.writeFeed(file, topic);
+}
+
+/**
  * Uploads a file to the Bee network.
  *
  * @param file - The path to the file to be uploaded.
@@ -61,10 +75,28 @@ export async function uploadFilesFromDirectory(path: string): Promise<UploadResu
     return result;
 }
 
+export async function readJsonFeed(rawTopic: string): Promise<AnyJson> {
+    console.log('reading json feed', rawTopic);
+    const beePlus = BeePlus.create();
+    const result = await beePlus.getJsonFeed(rawTopic);
+
+    return result;
+}
+
+export async function setJsonFeed(rawTopic: string, data: AnyJson): Promise<string> {
+    console.log('setting json feed', rawTopic);
+    const beePlus = BeePlus.create();
+    const result = await beePlus.setJsonFeed(beePlus.postageBatchId, rawTopic, data);
+
+    return result;
+}
+
 module.exports = {
     buy,
     feed,
+    feedImage,
     uploadFile,
     uploadFilesFromDirectory,
-    BeePlus
+    BeePlus,
+    Utils
 }
