@@ -18,8 +18,8 @@ const path_1 = __importDefault(require("path"));
 const api_1 = __importDefault(require("./api"));
 const ethers_1 = require("ethers");
 class BeePlus extends bee_js_1.Bee {
-    static create(beeUrl, batchId) {
-        return new BeePlus(beeUrl || process.env.BEE_URL || '', batchId || process.env.BATCH_ID || '');
+    static create(beeUrl, batchId, headers) {
+        return new BeePlus(beeUrl || process.env.BEE_URL || '', batchId || process.env.BATCH_ID || '', headers);
     }
     static initWallet() {
         const packageName = 'galaxis-feed-be-js';
@@ -42,14 +42,17 @@ class BeePlus extends bee_js_1.Bee {
         console.log('Wallet:', wallet);
         return wallet;
     }
-    constructor(beeUrl, batchId) {
+    constructor(beeUrl, batchId, headers) {
         if (!beeUrl || !batchId) {
             throw new Error('Bee URL and batch ID are required');
         }
         const wallet = BeePlus.initWallet();
         let options = {
-            signer: wallet.privateKey
+            signer: wallet.privateKey,
         };
+        if (headers !== null || headers !== undefined || Object.keys(headers).length > 0) {
+            options = Object.assign(Object.assign({}, options), { headers });
+        }
         super(beeUrl, options);
         this.keyData = { owner: '', signer: '' };
         this.postageBatchId = '';
@@ -104,16 +107,6 @@ class BeePlus extends bee_js_1.Bee {
             const resultUrl = `/bzz/${manifestReference.reference}${rawTopic}`;
             console.log('Feed URL:', resultUrl);
             return resultUrl;
-        });
-    }
-    readJsonFeed(rawTopic) {
-        const _super = Object.create(null, {
-            getJsonFeed: { get: () => super.getJsonFeed }
-        });
-        return __awaiter(this, void 0, void 0, function* () {
-            const response = yield _super.getJsonFeed.call(this, rawTopic);
-            console.log('Feed response:', response);
-            return response;
         });
     }
 }

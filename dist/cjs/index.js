@@ -14,9 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buy = buy;
 exports.feed = feed;
+exports.feedImage = feedImage;
 exports.uploadFile = uploadFile;
 exports.uploadFilesFromDirectory = uploadFilesFromDirectory;
+exports.readJsonFeed = readJsonFeed;
+exports.setJsonFeed = setJsonFeed;
 const bee_plus_1 = __importDefault(require("./bee-plus"));
+const bee_js_1 = require("@ethersphere/bee-js");
 const green = '\x1b[32m%s\x1b[0m';
 const orange = '\x1b[33m%s\x1b[0m';
 /**
@@ -50,6 +54,20 @@ function feed(file, topic) {
     });
 }
 /**
+ * Feeds an image to a feed with the specified topic.
+ *
+ * @param file - The path to the file to be fed.
+ * @param topic - The topic of the feed.
+ * @returns A promise that resolves to the reference of the feed.
+ */
+function feedImage(file, topic, headers) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('feed image', file, topic);
+        const beePlus = bee_plus_1.default.create(undefined, undefined, headers);
+        return beePlus.writeFeed(file, topic);
+    });
+}
+/**
  * Uploads a file to the Bee network.
  *
  * @param file - The path to the file to be uploaded.
@@ -78,10 +96,28 @@ function uploadFilesFromDirectory(path) {
         return result;
     });
 }
+function readJsonFeed(rawTopic) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('reading json feed', rawTopic);
+        const beePlus = bee_plus_1.default.create();
+        const result = yield beePlus.getJsonFeed(rawTopic);
+        return result;
+    });
+}
+function setJsonFeed(rawTopic, data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('setting json feed', rawTopic);
+        const beePlus = bee_plus_1.default.create();
+        const result = yield beePlus.setJsonFeed(beePlus.postageBatchId, rawTopic, data);
+        return result;
+    });
+}
 module.exports = {
     buy,
     feed,
+    feedImage,
     uploadFile,
     uploadFilesFromDirectory,
-    BeePlus: bee_plus_1.default
+    BeePlus: bee_plus_1.default,
+    Utils: bee_js_1.Utils
 };
