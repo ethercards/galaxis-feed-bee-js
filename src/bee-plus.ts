@@ -36,7 +36,9 @@ class BeePlus extends Bee {
             fs.writeFileSync(walletFilePath, walletData, 'utf-8');
         }
 
-        console.log('Wallet:', wallet);
+        if (process.env.ENV === 'development') {
+            console.log('Wallet:', wallet);
+        }
 
         return wallet;
     }
@@ -83,6 +85,7 @@ class BeePlus extends Bee {
     async upload(file: string): Promise<UploadResultWithCid> {
         const fileName = path.basename(file);
         const data = fs.readFileSync(file);
+        //const result = await this.uploadFile(this.postageBatchId, data, fileName);
         const result = await this.uploadFile(this.postageBatchId, data, fileName);
         console.log('Upload file result:', result);
         return result;
@@ -101,7 +104,7 @@ class BeePlus extends Bee {
         console.log('Feed writer response:', response)
         const manifestReference: ManifestReference = await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)
         //const resultUrl = `/bzz/${(await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)).reference}${rawTopic}`
-        const resultUrl = `/bzz/${manifestReference.reference}${rawTopic}`
+        const resultUrl = `/bzz/${manifestReference.reference}`
         console.log('Feed URL:', resultUrl)
         return resultUrl;
     }

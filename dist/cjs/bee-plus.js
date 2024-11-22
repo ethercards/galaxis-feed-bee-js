@@ -39,7 +39,9 @@ class BeePlus extends bee_js_1.Bee {
             const walletData = JSON.stringify({ address: wallet.address, privateKey: wallet.privateKey });
             fs_1.default.writeFileSync(walletFilePath, walletData, 'utf-8');
         }
-        console.log('Wallet:', wallet);
+        if (process.env.ENV === 'development') {
+            console.log('Wallet:', wallet);
+        }
         return wallet;
     }
     constructor(beeUrl, batchId, headers) {
@@ -84,6 +86,7 @@ class BeePlus extends bee_js_1.Bee {
         return __awaiter(this, void 0, void 0, function* () {
             const fileName = path_1.default.basename(file);
             const data = fs_1.default.readFileSync(file);
+            //const result = await this.uploadFile(this.postageBatchId, data, fileName);
             const result = yield this.uploadFile(this.postageBatchId, data, fileName);
             console.log('Upload file result:', result);
             return result;
@@ -104,7 +107,7 @@ class BeePlus extends bee_js_1.Bee {
             console.log('Feed writer response:', response);
             const manifestReference = yield this.createFeedManifest(this.postageBatchId, 'sequence', topic, (_a = this.wallet) === null || _a === void 0 ? void 0 : _a.address);
             //const resultUrl = `/bzz/${(await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)).reference}${rawTopic}`
-            const resultUrl = `/bzz/${manifestReference.reference}${rawTopic}`;
+            const resultUrl = `/bzz/${manifestReference.reference}`;
             console.log('Feed URL:', resultUrl);
             return resultUrl;
         });
