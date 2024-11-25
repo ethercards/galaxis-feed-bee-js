@@ -110,6 +110,7 @@ function setJsonFeed(rawTopic, data) {
         console.log('setting json feed', rawTopic);
         const beePlus = bee_plus_1.default.create();
         const result = yield beePlus.setJsonFeed(beePlus.postageBatchId, rawTopic, data);
+        console.log("SetJsonFeed result:", result);
         const topic = beePlus.makeFeedTopic(rawTopic);
         if (!((_a = beePlus === null || beePlus === void 0 ? void 0 : beePlus.wallet) === null || _a === void 0 ? void 0 : _a.address)) {
             console.log("Wallet not found");
