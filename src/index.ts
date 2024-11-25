@@ -2,6 +2,7 @@ import { AnyJson, UploadResultWithCid } from "@ethersphere/bee-js";
 import BeePlus from "./bee-plus";
 import { CreatePostageBatchResponse, ManifestReference } from "./types";
 import { Utils } from "@ethersphere/bee-js";
+import { FetchFeedUpdateResponse } from "@ethersphere/bee-js/dist/types/modules/feed";
 
 const green = '\x1b[32m%s\x1b[0m';
 const orange = '\x1b[33m%s\x1b[0m';
@@ -45,6 +46,24 @@ export async function feedFile(file: string, topic: string, headers: Record<stri
     console.log('feed image', file, topic);
     const beePlus = BeePlus.create(undefined, undefined, headers);
     return beePlus.writeFeed(file, topic);
+}
+
+export async function readFeed(rawTopic: string): Promise<FetchFeedUpdateResponse> {
+    console.log('reading feed', rawTopic);
+    
+    const beePlus = BeePlus.create();
+
+    if (!beePlus?.wallet?.address) {
+        console.log("Wallet not found");
+        throw new Error('Wallet not found');
+    }
+
+    const topic = beePlus.makeFeedTopic(rawTopic);
+    const reader = beePlus.makeFeedReader('sequence', topic, beePlus.wallet?.address);
+
+    const latestReference = await reader.download();
+
+    return latestReference;
 }
 
 /**

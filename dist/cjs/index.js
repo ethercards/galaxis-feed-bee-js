@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.buy = buy;
 exports.feed = feed;
 exports.feedFile = feedFile;
+exports.readFeed = readFeed;
 exports.uploadFile = uploadFile;
 exports.uploadFilesFromDirectory = uploadFilesFromDirectory;
 exports.readJsonFeed = readJsonFeed;
@@ -65,6 +66,21 @@ function feedFile(file, topic, headers) {
         console.log('feed image', file, topic);
         const beePlus = bee_plus_1.default.create(undefined, undefined, headers);
         return beePlus.writeFeed(file, topic);
+    });
+}
+function readFeed(rawTopic) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var _a, _b;
+        console.log('reading feed', rawTopic);
+        const beePlus = bee_plus_1.default.create();
+        if (!((_a = beePlus === null || beePlus === void 0 ? void 0 : beePlus.wallet) === null || _a === void 0 ? void 0 : _a.address)) {
+            console.log("Wallet not found");
+            throw new Error('Wallet not found');
+        }
+        const topic = beePlus.makeFeedTopic(rawTopic);
+        const reader = beePlus.makeFeedReader('sequence', topic, (_b = beePlus.wallet) === null || _b === void 0 ? void 0 : _b.address);
+        const latestReference = yield reader.download();
+        return latestReference;
     });
 }
 /**
