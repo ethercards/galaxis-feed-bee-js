@@ -118,6 +118,7 @@ class BeePlus extends Bee {
         const feedWriter: FeedWriter = this.makeFeedWriter('sequence', topic)
         const response = await this.uploadData(this.postageBatchId, data)
         console.log('Feed writer response:', response)
+        const feedUploadREsponse = await feedWriter.upload(this.postageBatchId, response.reference)
         const manifestReference: ManifestReference = await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)
         //const resultUrl = `/bzz/${(await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)).reference}${rawTopic}`
         const resultUrl = `/bzz/${manifestReference.reference}`
