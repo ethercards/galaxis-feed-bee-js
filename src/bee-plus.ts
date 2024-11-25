@@ -1,4 +1,4 @@
-import { AnyJson, Bee, BeeOptions, FeedWriter, PostageBatch, UploadResultWithCid } from "@ethersphere/bee-js";
+import { AnyJson, Bee, BeeOptions, BeeRequestOptions, FeedWriter, PostageBatch, UploadOptions, UploadRedundancyOptions, UploadResultWithCid } from "@ethersphere/bee-js";
 import fs from 'fs';
 import path from 'path';
 import Api from "./api";
@@ -53,7 +53,7 @@ class BeePlus extends Bee {
             signer: wallet.privateKey,
         }
 
-        if(headers !== null || headers !== undefined || Object.keys(headers).length > 0) {
+        if (headers !== null || headers !== undefined || Object.keys(headers).length > 0) {
             options = {
                 ...options,
                 headers
@@ -101,6 +101,22 @@ class BeePlus extends Bee {
         const result: UploadResultWithCid = await this.upload(file);
         const feedWriter: FeedWriter = this.makeFeedWriter('sequence', topic)
         const response = await feedWriter.upload(this.postageBatchId, result.reference)
+        console.log('Feed writer response:', response)
+        const manifestReference: ManifestReference = await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)
+        //const resultUrl = `/bzz/${(await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)).reference}${rawTopic}`
+        const resultUrl = `/bzz/${manifestReference.reference}`
+        console.log('Feed URL:', resultUrl)
+        return resultUrl;
+    }
+
+    async writeFeedData(data: string | Uint8Array, rawTopic: string): Promise<string> {
+        if (!this.wallet?.address) {
+            throw new Error('Wallet not found');
+        }
+        const topic = this.makeFeedTopic(rawTopic);
+        console.log('Feed topic:', topic);
+        const feedWriter: FeedWriter = this.makeFeedWriter('sequence', topic)
+        const response = await this.uploadData(this.postageBatchId, data)
         console.log('Feed writer response:', response)
         const manifestReference: ManifestReference = await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)
         //const resultUrl = `/bzz/${(await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)).reference}${rawTopic}`

@@ -112,5 +112,23 @@ class BeePlus extends bee_js_1.Bee {
             return resultUrl;
         });
     }
+    writeFeedData(data, rawTopic) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b;
+            if (!((_a = this.wallet) === null || _a === void 0 ? void 0 : _a.address)) {
+                throw new Error('Wallet not found');
+            }
+            const topic = this.makeFeedTopic(rawTopic);
+            console.log('Feed topic:', topic);
+            const feedWriter = this.makeFeedWriter('sequence', topic);
+            const response = yield this.uploadData(this.postageBatchId, data);
+            console.log('Feed writer response:', response);
+            const manifestReference = yield this.createFeedManifest(this.postageBatchId, 'sequence', topic, (_b = this.wallet) === null || _b === void 0 ? void 0 : _b.address);
+            //const resultUrl = `/bzz/${(await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)).reference}${rawTopic}`
+            const resultUrl = `/bzz/${manifestReference.reference}`;
+            console.log('Feed URL:', resultUrl);
+            return resultUrl;
+        });
+    }
 }
 exports.default = BeePlus;

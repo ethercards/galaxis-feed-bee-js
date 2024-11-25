@@ -89,7 +89,7 @@ export async function setJsonFeed(rawTopic: string, data: AnyJson): Promise<AnyJ
     const result = await beePlus.setJsonFeed(beePlus.postageBatchId, rawTopic, data);
     const topic = beePlus.makeFeedTopic(rawTopic);
 
-    if(!beePlus?.wallet?.address) {
+    if (!beePlus?.wallet?.address) {
         console.log("Wallet not found");
         throw new Error('Wallet not found');
     }
@@ -103,9 +103,20 @@ export async function setJsonFeed(rawTopic: string, data: AnyJson): Promise<AnyJ
     };
 }
 
+//from the headers the bee constructor will push data to iiner to axios call headers
+export async function feedData(rawTopic: string, data: string | Uint8Array, headers: Record<string, string>): Promise<string> {
+    const beePlus = BeePlus.create(undefined, undefined, headers);
+    const topic = beePlus.makeFeedTopic(rawTopic);
+    console.log('Feed topic:', topic);
+    const result = await beePlus.writeFeedData(data, rawTopic);
+    console.log(green, 'Feed data URL:', result);
+    return result;
+}
+
 module.exports = {
     buy,
     feed,
+    feedData,
     feedImage,
     uploadFile,
     uploadFilesFromDirectory,

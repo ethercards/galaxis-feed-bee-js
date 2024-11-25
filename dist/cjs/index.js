@@ -19,6 +19,7 @@ exports.uploadFile = uploadFile;
 exports.uploadFilesFromDirectory = uploadFilesFromDirectory;
 exports.readJsonFeed = readJsonFeed;
 exports.setJsonFeed = setJsonFeed;
+exports.feedData = feedData;
 const bee_plus_1 = __importDefault(require("./bee-plus"));
 const bee_js_1 = require("@ethersphere/bee-js");
 const green = '\x1b[32m%s\x1b[0m';
@@ -124,9 +125,21 @@ function setJsonFeed(rawTopic, data) {
         };
     });
 }
+//from the headers the bee constructor will push data to iiner to axios call headers
+function feedData(rawTopic, data, headers) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const beePlus = bee_plus_1.default.create(undefined, undefined, headers);
+        const topic = beePlus.makeFeedTopic(rawTopic);
+        console.log('Feed topic:', topic);
+        const result = yield beePlus.writeFeedData(data, rawTopic);
+        console.log(green, 'Feed data URL:', result);
+        return result;
+    });
+}
 module.exports = {
     buy,
     feed,
+    feedData,
     feedImage,
     uploadFile,
     uploadFilesFromDirectory,
