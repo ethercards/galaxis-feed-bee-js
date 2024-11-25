@@ -109,7 +109,7 @@ class BeePlus extends Bee {
         return resultUrl;
     }
 
-    async writeFeedData(data: string | Uint8Array, rawTopic: string): Promise<string> {
+    async writeFeedData(rawTopic: string, data: string | Uint8Array): Promise<string> {
         if (!this.wallet?.address) {
             throw new Error('Wallet not found');
         }

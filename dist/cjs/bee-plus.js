@@ -112,7 +112,7 @@ class BeePlus extends bee_js_1.Bee {
             return resultUrl;
         });
     }
-    writeFeedData(data, rawTopic) {
+    writeFeedData(rawTopic, data) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a, _b;
             if (!((_a = this.wallet) === null || _a === void 0 ? void 0 : _a.address)) {

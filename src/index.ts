@@ -111,7 +111,7 @@ export async function feedData(rawTopic: string, data: string | Uint8Array, head
     const beePlus = BeePlus.create(undefined, undefined, headers);
     const topic = beePlus.makeFeedTopic(rawTopic);
     console.log('Feed topic:', topic);
-    const result = await beePlus.writeFeedData(data, rawTopic);
+    const result = await beePlus.writeFeedData(rawTopic, data);
     console.log(green, 'Feed data URL:', result);
     return result;
 }

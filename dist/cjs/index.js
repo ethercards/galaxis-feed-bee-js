@@ -132,7 +132,7 @@ function feedData(rawTopic, data, headers) {
         const beePlus = bee_plus_1.default.create(undefined, undefined, headers);
         const topic = beePlus.makeFeedTopic(rawTopic);
         console.log('Feed topic:', topic);
-        const result = yield beePlus.writeFeedData(data, rawTopic);
+        const result = yield beePlus.writeFeedData(rawTopic, data);
         console.log(green, 'Feed data URL:', result);
         return result;
     });
