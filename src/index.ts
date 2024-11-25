@@ -87,6 +87,9 @@ export async function setJsonFeed(rawTopic: string, data: AnyJson): Promise<AnyJ
     console.log('setting json feed', rawTopic);
     const beePlus = BeePlus.create();
     const result = await beePlus.setJsonFeed(beePlus.postageBatchId, rawTopic, data);
+
+    console.log("SetJsonFeed result:", result);
+
     const topic = beePlus.makeFeedTopic(rawTopic);
 
     if (!beePlus?.wallet?.address) {
