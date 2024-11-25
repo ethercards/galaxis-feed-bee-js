@@ -1,4 +1,4 @@
-import { AnyJson, UploadResultWithCid } from "@ethersphere/bee-js";
+import { AnyJson, FeedManifestResult, UploadResultWithCid } from "@ethersphere/bee-js";
 import BeePlus from "./bee-plus";
 import { CreatePostageBatchResponse, ManifestReference } from "./types";
 import { Utils } from "@ethersphere/bee-js";
@@ -36,7 +36,7 @@ export async function feed(file: string, topic: string): Promise<string> {
 }
 
 /**
- * Feeds an image to a feed with the specified topic.
+ * Feeds an file to a feed with the specified topic, using the specified headers.
  *
  * @param file - The path to the file to be fed.
  * @param topic - The topic of the feed.
@@ -47,6 +47,13 @@ export async function feedFile(file: string, topic: string, headers: Record<stri
     const beePlus = BeePlus.create(undefined, undefined, headers);
     return beePlus.writeFeed(file, topic);
 }
+
+/**
+ * Reads a feed with the specified topic.
+ *
+ * @param rawTopic - The topic of the feed.
+ * @returns A promise that resolves to a FetchFeedUpdateResponse object containing details of the feed.
+ */
 
 export async function readFeed(rawTopic: string): Promise<FetchFeedUpdateResponse> {
     console.log('reading feed', rawTopic);
@@ -64,6 +71,29 @@ export async function readFeed(rawTopic: string): Promise<FetchFeedUpdateRespons
     const latestReference = await reader.download();
 
     return latestReference;
+}
+
+/**
+ * Gets the manifest reference of a feed with the specified topic.
+ *
+ * @param rawTopic - The topic of the feed.
+ * @returns A promise that resolves to a ManifestReference object containing the reference of the feed.
+ */
+
+export async function getManifestReference(rawTopic: string): Promise<FeedManifestResult> {
+    console.log('reading feed', rawTopic);
+    
+    const beePlus = BeePlus.create();
+
+    if (!beePlus?.wallet?.address) {
+        console.log("Wallet not found");
+        throw new Error('Wallet not found');
+    }
+
+    const topic = beePlus.makeFeedTopic(rawTopic);
+    const manifestReference = beePlus.createFeedManifest(beePlus.postageBatchId, 'sequence', topic, beePlus.wallet?.address);
+
+    return manifestReference;
 }
 
 /**

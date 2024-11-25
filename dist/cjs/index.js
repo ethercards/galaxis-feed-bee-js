@@ -16,6 +16,7 @@ exports.buy = buy;
 exports.feed = feed;
 exports.feedFile = feedFile;
 exports.readFeed = readFeed;
+exports.getManifestReference = getManifestReference;
 exports.uploadFile = uploadFile;
 exports.uploadFilesFromDirectory = uploadFilesFromDirectory;
 exports.readJsonFeed = readJsonFeed;
@@ -55,7 +56,7 @@ function feed(file, topic) {
     });
 }
 /**
- * Feeds an image to a feed with the specified topic.
+ * Feeds an file to a feed with the specified topic, using the specified headers.
  *
  * @param file - The path to the file to be fed.
  * @param topic - The topic of the feed.
@@ -68,6 +69,12 @@ function feedFile(file, topic, headers) {
         return beePlus.writeFeed(file, topic);
     });
 }
+/**
+ * Reads a feed with the specified topic.
+ *
+ * @param rawTopic - The topic of the feed.
+ * @returns A promise that resolves to a FetchFeedUpdateResponse object containing details of the feed.
+ */
 function readFeed(rawTopic) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a, _b;
@@ -81,6 +88,26 @@ function readFeed(rawTopic) {
         const reader = beePlus.makeFeedReader('sequence', topic, (_b = beePlus.wallet) === null || _b === void 0 ? void 0 : _b.address);
         const latestReference = yield reader.download();
         return latestReference;
+    });
+}
+/**
+ * Gets the manifest reference of a feed with the specified topic.
+ *
+ * @param rawTopic - The topic of the feed.
+ * @returns A promise that resolves to a ManifestReference object containing the reference of the feed.
+ */
+function getManifestReference(rawTopic) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var _a, _b;
+        console.log('reading feed', rawTopic);
+        const beePlus = bee_plus_1.default.create();
+        if (!((_a = beePlus === null || beePlus === void 0 ? void 0 : beePlus.wallet) === null || _a === void 0 ? void 0 : _a.address)) {
+            console.log("Wallet not found");
+            throw new Error('Wallet not found');
+        }
+        const topic = beePlus.makeFeedTopic(rawTopic);
+        const manifestReference = beePlus.createFeedManifest(beePlus.postageBatchId, 'sequence', topic, (_b = beePlus.wallet) === null || _b === void 0 ? void 0 : _b.address);
+        return manifestReference;
     });
 }
 /**
