@@ -118,13 +118,14 @@ class BeePlus extends bee_js_1.Bee {
             if (!((_a = this.wallet) === null || _a === void 0 ? void 0 : _a.address)) {
                 throw new Error('Wallet not found');
             }
+            console.log("address", this.wallet.address, this.wallet.privateKey);
             const topic = this.makeFeedTopic(rawTopic);
-            console.log('Feed topic:', topic);
             const feedWriter = this.makeFeedWriter('sequence', topic);
             const response = yield this.uploadData(this.postageBatchId, data);
-            console.log('Feed writer response:', response);
+            console.log('Feed writer upload with:', response.reference);
             const feedUploadResponse = yield feedWriter.upload(this.postageBatchId, response.reference);
             console.log('Feed writer upload response:', feedUploadResponse);
+            console.log("createFeedManifest frot address", this.wallet.address);
             const manifestReference = yield this.createFeedManifest(this.postageBatchId, 'sequence', topic, (_b = this.wallet) === null || _b === void 0 ? void 0 : _b.address);
             //const resultUrl = `/bzz/${(await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)).reference}${rawTopic}`
             const resultUrl = `/bzz/${manifestReference.reference}`;
