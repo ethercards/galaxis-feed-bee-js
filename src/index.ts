@@ -159,6 +159,7 @@ module.exports = {
     buy,
     feed,
     feedFile,
+    getManifestReference,
     uploadFile,
     uploadFilesFromDirectory,
     readFeed,
