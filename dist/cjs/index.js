@@ -14,12 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buy = buy;
 exports.feed = feed;
-exports.feedImage = feedImage;
+exports.feedFile = feedFile;
 exports.uploadFile = uploadFile;
 exports.uploadFilesFromDirectory = uploadFilesFromDirectory;
 exports.readJsonFeed = readJsonFeed;
 exports.setJsonFeed = setJsonFeed;
-exports.feedData = feedData;
 const bee_plus_1 = __importDefault(require("./bee-plus"));
 const bee_js_1 = require("@ethersphere/bee-js");
 const green = '\x1b[32m%s\x1b[0m';
@@ -61,7 +60,7 @@ function feed(file, topic) {
  * @param topic - The topic of the feed.
  * @returns A promise that resolves to the reference of the feed.
  */
-function feedImage(file, topic, headers) {
+function feedFile(file, topic, headers) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('feed image', file, topic);
         const beePlus = bee_plus_1.default.create(undefined, undefined, headers);
@@ -126,22 +125,10 @@ function setJsonFeed(rawTopic, data) {
         };
     });
 }
-//from the headers the bee constructor will push data to iiner to axios call headers
-function feedData(rawTopic, data, headers) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const beePlus = bee_plus_1.default.create(undefined, undefined, headers);
-        const topic = beePlus.makeFeedTopic(rawTopic);
-        console.log('Feed topic:', topic);
-        const result = yield beePlus.writeFeedData(rawTopic, data);
-        console.log(green, 'Feed data URL:', result);
-        return result;
-    });
-}
 module.exports = {
     buy,
     feed,
-    feedData,
-    feedImage,
+    feedFile,
     uploadFile,
     uploadFilesFromDirectory,
     readJsonFeed,

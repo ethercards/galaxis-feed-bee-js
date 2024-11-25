@@ -41,7 +41,7 @@ export async function feed(file: string, topic: string): Promise<string> {
  * @param topic - The topic of the feed.
  * @returns A promise that resolves to the reference of the feed.
  */
-export async function feedImage(file: string, topic: string, headers: Record<string, string>): Promise<string> {
+export async function feedFile(file: string, topic: string, headers: Record<string, string>): Promise<string> {
     console.log('feed image', file, topic);
     const beePlus = BeePlus.create(undefined, undefined, headers);
     return beePlus.writeFeed(file, topic);
@@ -106,21 +106,10 @@ export async function setJsonFeed(rawTopic: string, data: AnyJson): Promise<AnyJ
     };
 }
 
-//from the headers the bee constructor will push data to iiner to axios call headers
-export async function feedData(rawTopic: string, data: string | Uint8Array, headers: Record<string, string>): Promise<string> {
-    const beePlus = BeePlus.create(undefined, undefined, headers);
-    const topic = beePlus.makeFeedTopic(rawTopic);
-    console.log('Feed topic:', topic);
-    const result = await beePlus.writeFeedData(rawTopic, data);
-    console.log(green, 'Feed data URL:', result);
-    return result;
-}
-
 module.exports = {
     buy,
     feed,
-    feedData,
-    feedImage,
+    feedFile,
     uploadFile,
     uploadFilesFromDirectory,
     readJsonFeed,
