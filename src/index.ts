@@ -131,6 +131,7 @@ module.exports = {
     feedFile,
     uploadFile,
     uploadFilesFromDirectory,
+    readFeed,
     readJsonFeed,
     setJsonFeed,
     BeePlus,
