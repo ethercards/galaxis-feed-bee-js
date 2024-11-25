@@ -106,10 +106,22 @@ function readJsonFeed(rawTopic) {
 }
 function setJsonFeed(rawTopic, data) {
     return __awaiter(this, void 0, void 0, function* () {
+        var _a, _b;
         console.log('setting json feed', rawTopic);
         const beePlus = bee_plus_1.default.create();
         const result = yield beePlus.setJsonFeed(beePlus.postageBatchId, rawTopic, data);
-        return result;
+        const topic = beePlus.makeFeedTopic(rawTopic);
+        if (!((_a = beePlus === null || beePlus === void 0 ? void 0 : beePlus.wallet) === null || _a === void 0 ? void 0 : _a.address)) {
+            console.log("Wallet not found");
+            throw new Error('Wallet not found');
+        }
+        const manifestReference = yield beePlus.createFeedManifest(beePlus.postageBatchId, 'sequence', topic, (_b = beePlus.wallet) === null || _b === void 0 ? void 0 : _b.address);
+        //const resultUrl = `/bzz/${(await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)).reference}${rawTopic}`
+        const resultUrl = `/bzz/${manifestReference.reference}`;
+        return {
+            "result": result,
+            "url": resultUrl
+        };
     });
 }
 module.exports = {

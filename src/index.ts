@@ -1,6 +1,6 @@
 import { AnyJson, UploadResultWithCid } from "@ethersphere/bee-js";
 import BeePlus from "./bee-plus";
-import { CreatePostageBatchResponse } from "./types";
+import { CreatePostageBatchResponse, ManifestReference } from "./types";
 import { Utils } from "@ethersphere/bee-js";
 
 const green = '\x1b[32m%s\x1b[0m';
@@ -83,12 +83,24 @@ export async function readJsonFeed(rawTopic: string): Promise<AnyJson> {
     return result;
 }
 
-export async function setJsonFeed(rawTopic: string, data: AnyJson): Promise<string> {
+export async function setJsonFeed(rawTopic: string, data: AnyJson): Promise<AnyJson> {
     console.log('setting json feed', rawTopic);
     const beePlus = BeePlus.create();
     const result = await beePlus.setJsonFeed(beePlus.postageBatchId, rawTopic, data);
+    const topic = beePlus.makeFeedTopic(rawTopic);
 
-    return result;
+    if(!beePlus?.wallet?.address) {
+        console.log("Wallet not found");
+        throw new Error('Wallet not found');
+    }
+    const manifestReference: ManifestReference = await beePlus.createFeedManifest(beePlus.postageBatchId, 'sequence', topic, beePlus.wallet?.address)
+    //const resultUrl = `/bzz/${(await this.createFeedManifest(this.postageBatchId, 'sequence', topic, this.wallet?.address)).reference}${rawTopic}`
+    const resultUrl = `/bzz/${manifestReference.reference}`
+
+    return {
+        "result": result,
+        "url": resultUrl
+    };
 }
 
 module.exports = {
