@@ -4,6 +4,8 @@ import { CreatePostageBatchResponse, ManifestReference } from "./types";
 import { Utils } from "@ethersphere/bee-js";
 import { FetchFeedUpdateResponse } from "@ethersphere/bee-js/dist/types/modules/feed";
 
+export { UploadResultWithCid } from '@ethersphere/bee-js';
+
 const green = '\x1b[32m%s\x1b[0m';
 const orange = '\x1b[33m%s\x1b[0m';
 
@@ -110,6 +112,21 @@ export async function uploadFile(file: string): Promise<UploadResultWithCid> {
 }
 
 /**
+ * Upload collection of files to a Bee node
+ *
+ * @param files - list of files to be uploaded
+ * @returns A promise that resolves to an UploadResultWithCid object containing the CID of the uploaded file.
+ */
+export async function uploadFiles(
+    files: File[] | FileList
+): Promise<UploadResultWithCid> {
+    console.log("uploading files", files);
+    const beePlus = BeePlus.create();
+    const result = await beePlus.uploadFiles(beePlus.postageBatchId, files);
+    return result;
+}
+
+/**
  * Uploads files from a directory to the Bee network.
  *
  * @param path - The path to the directory containing the files to be uploaded.
@@ -161,6 +178,7 @@ module.exports = {
     feedFile,
     getManifestReference,
     uploadFile,
+    uploadFiles,
     uploadFilesFromDirectory,
     readFeed,
     readJsonFeed,
