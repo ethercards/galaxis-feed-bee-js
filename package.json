@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A package for interacting with the Bee API",
   "main": "dist/cjs/index.js",
-  "types": "/dist/index.d.ts",
+  "types": "/dist/types/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc",
     "start": "ts-node src/index.ts",
