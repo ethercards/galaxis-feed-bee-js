@@ -59,7 +59,7 @@ export async function feedFile(file: string, topic: string, headers: Record<stri
 
 export async function readFeed(rawTopic: string): Promise<FetchFeedUpdateResponse> {
     console.log('reading feed', rawTopic);
-    
+
     const beePlus = BeePlus.create();
 
     if (!beePlus?.wallet?.address) {
@@ -84,7 +84,7 @@ export async function readFeed(rawTopic: string): Promise<FetchFeedUpdateRespons
 
 export async function getManifestReference(rawTopic: string): Promise<FeedManifestResult> {
     console.log('reading feed', rawTopic);
-    
+
     const beePlus = BeePlus.create();
 
     if (!beePlus?.wallet?.address) {
@@ -108,6 +108,19 @@ export async function uploadFile(file: string): Promise<UploadResultWithCid> {
     console.log('uploading file', file);
     const beePlus = BeePlus.create();
     const result = await beePlus.upload(file);
+    return result;
+}
+
+/**
+ * Uploads a single file to the Bee network.
+ *
+ * @param file - The file to be uploaded
+ * @returns A promise that resolves to an UploadResultWithCid object containing the CID of the uploaded file.
+ */
+export async function uploadSingleFile(file: File): Promise<UploadResultWithCid> {
+    console.log('uploading single file', file);
+    const beePlus = BeePlus.create();
+    const result = await beePlus.uploadFile(beePlus.postageBatchId, file);
     return result;
 }
 
@@ -178,6 +191,7 @@ module.exports = {
     feedFile,
     getManifestReference,
     uploadFile,
+    uploadSingleFile,
     uploadFiles,
     uploadFilesFromDirectory,
     readFeed,

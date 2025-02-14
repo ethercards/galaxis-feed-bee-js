@@ -18,6 +18,7 @@ exports.feedFile = feedFile;
 exports.readFeed = readFeed;
 exports.getManifestReference = getManifestReference;
 exports.uploadFile = uploadFile;
+exports.uploadSingleFile = uploadSingleFile;
 exports.uploadFiles = uploadFiles;
 exports.uploadFilesFromDirectory = uploadFilesFromDirectory;
 exports.readJsonFeed = readJsonFeed;
@@ -126,6 +127,20 @@ function uploadFile(file) {
     });
 }
 /**
+ * Uploads a single file to the Bee network.
+ *
+ * @param file - The file to be uploaded
+ * @returns A promise that resolves to an UploadResultWithCid object containing the CID of the uploaded file.
+ */
+function uploadSingleFile(file) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('uploading single file', file);
+        const beePlus = bee_plus_1.default.create();
+        const result = yield beePlus.uploadFile(beePlus.postageBatchId, file);
+        return result;
+    });
+}
+/**
  * Upload collection of files to a Bee node
  *
  * @param files - list of files to be uploaded
@@ -189,6 +204,7 @@ module.exports = {
     feedFile,
     getManifestReference,
     uploadFile,
+    uploadSingleFile,
     uploadFiles,
     uploadFilesFromDirectory,
     readFeed,

@@ -48,6 +48,13 @@ export declare function getManifestReference(rawTopic: string): Promise<FeedMani
  */
 export declare function uploadFile(file: string): Promise<UploadResultWithCid>;
 /**
+ * Uploads a single file to the Bee network.
+ *
+ * @param file - The file to be uploaded
+ * @returns A promise that resolves to an UploadResultWithCid object containing the CID of the uploaded file.
+ */
+export declare function uploadSingleFile(file: File): Promise<UploadResultWithCid>;
+/**
  * Upload collection of files to a Bee node
  *
  * @param files - list of files to be uploaded
